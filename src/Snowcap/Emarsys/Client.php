@@ -709,7 +709,20 @@ class Client
     public function createCustomField($name, $type){
 	return $this->send(HttpClient::POST, 'field', array('name'=>$name, 'application_type'=>$type));
     }
-    
+
+    /**
+    * Returns exported data by function getresponses
+    *
+    * @param string|int $exportId
+    * @param string|int $offset
+    * @param string|int $limit
+    * @return Response
+    */
+    public function getExportedData($exportId, $offset, $limit)
+    {
+        return $this->send(HttpClient::GET, sprintf('export/%s/data/offset=%s&limit=%s', $exportId, $offset, $limit));
+    }
+
     /**
      * @param string $method
      * @param string $uri
@@ -729,6 +742,11 @@ class Client
 	    }
 
 	    $responseArray = json_decode($responseJson, true);
+
+        if (!is_array($responseArray) && $responseJson) {
+            // recive text data using the /api/v2/export/<export_id>/data
+            $responseArray = ['replyCode' => Response::REPLY_CODE_OK, 'replyText' => 'OK', 'data' => $responseJson];
+        }
 
 	    return new Response($responseArray);
     }

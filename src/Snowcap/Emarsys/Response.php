@@ -14,6 +14,7 @@ class Response
     const REPLY_CODE_NON_UNIQUE_RESULT = 2010;
     const REPLY_CODE_INVALID_STATUS = 6003;
     const REPLY_CODE_INVALID_DATA = 10001;
+    const REPLY_CODE_EXPORT_IN_PROGRESS = 4005;
 
     /**
      * @var int
